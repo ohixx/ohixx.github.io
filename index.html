@@ -1,304 +1,133 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>! Ohixx | Portfolio</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
-
-        :root {
-            --glass-bg: rgba(13, 13, 18, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.06);
-            --text-main: #ffffff;
-            --text-sec: #9ca3af;
-            --accent-blue: #3b82f6;
-            --accent-cyan: #06b6d4;
-            --brand-github: #24292e;
-            --brand-discord: #5865F2;
-            --brand-telegram: #229ED9;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: url('banner.gif') no-repeat center center fixed;
-            background-size: cover;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-main);
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        body::before {
-            content: ''; position: absolute; inset: 0;
-            background: radial-gradient(circle at center, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.8) 100%);
-            z-index: -1;
-        }
-
-        .container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            max-width: 1050px;
-            width: 95%;
-            padding: 20px;
-        }
-
-        .card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px) saturate(120%);
-            -webkit-backdrop-filter: blur(20px) saturate(120%);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 2.5rem;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease, border-color 0.3s;
-            opacity: 0;
-            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-        }
-        
-        .card:nth-child(2) { animation-delay: 0.15s; }
-
-        .card:hover {
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .card::after {
-            content: '';
-            position: absolute;
-            top: 0; left: -150%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
-            transform: skewX(-20deg);
-            animation: windSheen 8s infinite cubic-bezier(0.3, 1, 0.2, 1);
-            pointer-events: none;
-        }
-
-        @keyframes windSheen {
-            0%, 50% { left: -150%; }
-            100% { left: 150%; }
-        }
-
-        .left-col { display: flex; flex-direction: column; gap: 1.5rem; }
-
-        .profile-header { display: flex; align-items: center; gap: 1.5rem; }
-
-        .avatar {
-            width: 110px; height: 110px;
-            border-radius: 50%;
-            background: url('avatar.gif') center/cover;
-            border: 3px solid rgba(255,255,255,0.08);
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
-            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        
-        .avatar:hover { transform: scale(1.1) rotate(5deg); border-color: var(--accent-blue); }
-
-        .profile-info h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            background: linear-gradient(120deg, #fff, var(--accent-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
-        }
-
-        .profile-info p {
-            color: var(--text-sec);
-            font-size: 1rem;
-            font-weight: 400;
-            display: flex; align-items: center; gap: 8px;
-        }
-
-        .profile-info p i { font-size: 0.8rem; color: var(--accent-cyan); }
-
-        .social-row {
-            display: flex; gap: 1rem; margin-top: 2rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .social-btn {
-            flex: 1;
-            height: 50px;
-            border-radius: 12px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.05);
-            display: flex; align-items: center; justify-content: center;
-            color: #ccc; font-size: 1.3rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            text-decoration: none;
-            position: relative;
-        }
-
-        .social-btn:hover { transform: translateY(-3px); color: white; }
-        
-        .social-btn.gh:hover { background: var(--brand-github); border-color: transparent; }
-        .social-btn.ds:hover { background: var(--brand-discord); border-color: transparent; }
-        .social-btn.tg:hover { background: var(--brand-telegram); border-color: transparent; }
-
-        .tooltip {
-            position: absolute; top: -40px;
-            background: var(--brand-discord); color: white;
-            padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 600;
-            opacity: 0; pointer-events: none; transition: 0.3s;
-            transform: translateY(10px);
-            white-space: nowrap;
-        }
-        .tooltip.show { opacity: 1; transform: translateY(0); }
-
-        .stats-wrapper {
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 15px; margin-top: 0.5rem;
-        }
-        
-        .stat-box {
-            background: rgba(255,255,255,0.02);
-            border-radius: 16px; padding: 15px 10px;
-            text-align: center; border: 1px solid transparent;
-            transition: 0.3s;
-        }
-        
-        .stat-box:hover {
-            background: rgba(255,255,255,0.04);
-            border-color: rgba(255,255,255,0.05);
-            transform: translateY(-2px);
-        }
-
-        .stat-val { display: block; font-size: 1.5rem; font-weight: 700; color: white; }
-        .stat-key { font-size: 0.75rem; color: var(--text-sec); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 5px; }
-        .stat-active { color: var(--accent-cyan); font-size: 0.7rem; margin-top: 3px; font-weight: 600; }
-
-        .right-col h2 {
-            font-size: 1.4rem; font-weight: 700; margin-bottom: 1.5rem;
-            display: flex; align-items: center; gap: 10px;
-            color: #eee;
-        }
-        .right-col h2::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
-
-        .stack-section { margin-bottom: 2rem; }
-        .stack-title { font-size: 0.9rem; font-weight: 600; color: var(--text-sec); margin-bottom: 10px; display: block; }
-        
-        .badges { display: flex; flex-wrap: wrap; gap: 8px; }
-        
-        .badges a {
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            filter: grayscale(20%); opacity: 0.9;
-        }
-        .badges a:hover {
-            transform: scale(1.1); filter: grayscale(0%); opacity: 1; z-index: 5;
-        }
-        
-        .badges img { height: 28px; border-radius: 6px; }
-
-        @media (max-width: 768px) {
-            .container { grid-template-columns: 1fr; }
-            .profile-header { flex-direction: column; text-align: center; }
-            .profile-info h1 { font-size: 2rem; }
-            .profile-info p { justify-content: center; }
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>ohixx</title>
+  <meta name="description" content="ohixx — arch linux, debian. контакты и заказы.">
+  <meta name="theme-color" content="#050506">
+  <link rel="icon" href="image.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
 
-    <div class="container">
-        <div class="left-col">
-            <div class="card">
-                <div class="profile-header">
-                    <div class="avatar"></div>
-                    <div class="profile-info">
-                        <h1>! Ohixx</h1>
-                        <p><i class="fas fa-terminal"></i> Python & Linux Enthusiast</p>
-                    </div>
-                </div>
+  <video id="bg" src="bg-web.mp4" autoplay muted loop playsinline disablepictureinpicture tabindex="-1" aria-hidden="true"></video>
+  <div id="shade" aria-hidden="true"></div>
+  <div id="grid" aria-hidden="true"></div>
 
-                <div class="stats-wrapper">
-                    <div class="stat-box">
-                        <span class="stat-val">4</span>
-                        <div class="stat-key">Projects</div>
-                    </div>
-                    <div class="stat-box">
-                        <span class="stat-val">1</span>
-                        <div class="stat-key">Active Bot</div>
-                        <div class="stat-active"><i class="fas fa-circle" style="font-size: 6px; vertical-align: middle;"></i> Online</div>
-                    </div>
-                    <div class="stat-box">
-                        <span class="stat-val">3yr</span>
-                        <div class="stat-key">Coding</div>
-                        <div class="stat-active">1yr Linux</div>
-                    </div>
-                </div>
+  <main id="viewport">
+    <div id="world">
+      <svg id="wires" aria-hidden="true"></svg>
 
-                <div class="social-row">
-                    <a href="https://github.com/ohixx" target="_blank" class="social-btn gh">
-                        <i class="fab fa-github"></i>
-                    </a>
-                    <div class="social-btn ds" onclick="copyDiscord()">
-                        <i class="fab fa-discord"></i>
-                        <span class="tooltip" id="ds-tooltip">Copied: ohixx</span>
-                    </div>
-                    <a href="https://t.me/ohixgdlike" target="_blank" class="social-btn tg">
-                        <i class="fab fa-telegram"></i>
-                    </a>
-                </div>
-            </div>
+      <!-- ═══ главный остров ═══ -->
+      <section class="island" id="bio" aria-label="био">
+        <header class="bar"><span class="path">~/ohixx</span><i class="stripes"></i></header>
+        <div class="bio-body">
+          <div class="avatar-stack">
+            <img class="avatar" src="image.png" alt="аватар ohixx" draggable="false">
+            <ul class="tech-stack" aria-label="Языки и технологии">
+              <li><img src="https://cdn.simpleicons.org/c/A8B9CC" alt="C"></li>
+              <li><img src="https://cdn.simpleicons.org/cplusplus/00599C" alt="C++"></li>
+              <li><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg" alt="C#"></li>
+              <li><img src="https://cdn.simpleicons.org/python/3776AB" alt="Python"></li>
+              <li><img src="https://cdn.simpleicons.org/html5/E34F26" alt="HTML"></li>
+            </ul>
+          </div>
+          <div class="bio-text">
+            <h1>ohixx<span class="caret">_</span></h1>
+
+            <p class="prompt"><b>$</b> cat /etc/os-release</p>
+            <ul class="chips now">
+              <li style="--c:#1793d1"><img src="https://cdn.simpleicons.org/archlinux/1793d1" alt="">arch linux</li>
+              <li style="--c:#d70a53"><img src="https://cdn.simpleicons.org/debian/d70a53" alt="">debian</li>
+            </ul>
+
+            <p class="prompt"><b>$</b> history | grep distro</p>
+            <ul class="chips past">
+              <li style="--c:#7a6bb5"><img src="https://cdn.simpleicons.org/gentoo/7a6bb5" alt="">gentoo</li>
+              <li style="--c:#c0392b"><img src="https://cdn.simpleicons.org/freebsd/c0392b" alt="">freebsd</li>
+              <li style="--c:#7ebae4"><img src="https://cdn.simpleicons.org/nixos/7ebae4" alt="">nixos</li>
+              <li style="--c:#5a9e78"><img src="https://cdn.simpleicons.org/voidlinux/5a9e78" alt="">void</li>
+              <li style="--c:#2a86b8"><img src="https://cdn.simpleicons.org/alpinelinux/2a86b8" alt="">alpine</li>
+            </ul>
+          </div>
         </div>
+      </section>
 
-        <div class="card right-col">
-            <h2>Stack & Tools</h2>
+      <!-- ═══ соцсети ═══ -->
+      <section class="island" id="links" aria-label="соцсети">
+        <header class="bar"><span class="path">~/links</span><i class="stripes"></i></header>
+        <ul class="socials">
+          <li>
+            <a id="funpay" class="soc soon" draggable="false" target="_blank" rel="noopener">
+              <span class="ico funpay-mark"><img src="https://funpay.com/favicon.ico" alt="" onerror="this.remove()"><b>fp</b></span>
+              <span class="meta"><b>funpay</b><small>скоро</small></span>
+            </a>
+          </li>
+          <li>
+            <a class="soc" draggable="false" target="_blank" rel="noopener" href="https://discord.com/users/758027179714936965">
+              <span class="ico"><img src="https://cdn.simpleicons.org/discord/5865F2" alt=""></span>
+              <span class="meta"><b>discord</b><small>@ohixxx</small></span>
+            </a>
+            <button class="copy" data-copy="@ohixxx" title="скопировать" aria-label="скопировать"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5"/><path d="M10.5 3.5V3A1.5 1.5 0 0 0 9 1.5H3A1.5 1.5 0 0 0 1.500 3v6A1.5 1.5 0 0 0 3 10.5h.5"/></svg></button>
+          </li>
+          <li>
+            <a class="soc" draggable="false" target="_blank" rel="noopener" href="https://t.me/ohixxsexi">
+              <span class="ico"><img src="https://cdn.simpleicons.org/telegram/26A5E4" alt=""></span>
+              <span class="meta"><b>telegram</b><small>@ohixxsexi</small></span>
+            </a>
+            <button class="copy" data-copy="@ohixxsexi" title="скопировать" aria-label="скопировать"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5"/><path d="M10.5 3.5V3A1.5 1.5 0 0 0 9 1.5H3A1.5 1.5 0 0 0 1.500 3v6A1.5 1.5 0 0 0 3 10.5h.5"/></svg></button>
+          </li>
+          <li>
+            <a class="soc" draggable="false" target="_blank" rel="noopener" href="https://matrix.to/#/@ohixx:matrix.org">
+              <span class="ico"><img src="https://cdn.simpleicons.org/matrix/E8E8EC" alt=""></span>
+              <span class="meta"><b>matrix</b><small>@ohixx:matrix.org</small></span>
+            </a>
+            <button class="copy" data-copy="@ohixx:matrix.org" title="скопировать" aria-label="скопировать"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5"/><path d="M10.5 3.5V3A1.5 1.5 0 0 0 9 1.5H3A1.5 1.5 0 0 0 1.500 3v6A1.5 1.5 0 0 0 3 10.5h.5"/></svg></button>
+          </li>
+        </ul>
+      </section>
 
-            <div class="stack-section">
-                <span class="stack-title">Core Languages</span>
-                <div class="badges">
-                    <a href="https://www.python.org/" target="_blank"><img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white"></a>
-                    <a href="https://nodejs.org/" target="_blank"><img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white"></a>
-                    <a href="https://www.gnu.org/software/bash/" target="_blank"><img src="https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnu-bash&logoColor=white"></a>
-                </div>
-            </div>
+      <!-- ═══ заказы (наполняется из config.js) ═══ -->
+      <section class="island" id="orders" aria-label="заказы клиентов">
+        <header class="bar"><span class="path">~/orders</span><span class="count" id="orders-count">0</span><i class="stripes"></i></header>
+        <div id="orders-list"></div>
+      </section>
 
-            <div class="stack-section">
-                <span class="stack-title">Libraries & DB</span>
-                <div class="badges">
-                    <a href="https://discordpy.readthedocs.io/" target="_blank"><img src="https://img.shields.io/badge/Discord.py-7289DA?style=for-the-badge&logo=discord&logoColor=white"></a>
-                    <a href="https://discord.js.org/" target="_blank"><img src="https://img.shields.io/badge/Discord.js-5865F2?style=for-the-badge&logo=discord&logoColor=white"></a>
-                    <a href="https://www.sqlite.org/" target="_blank"><img src="https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white"></a>
-                </div>
-            </div>
-
-            <div class="stack-section">
-                <span class="stack-title">Environment</span>
-                <div class="badges">
-                    <a href="https://www.gentoo.org/" target="_blank"><img src="https://img.shields.io/badge/Gentoo-54487A?style=for-the-badge&logo=gentoo&logoColor=white"></a>
-                    <a href="https://archlinux.org/" target="_blank"><img src="https://img.shields.io/badge/Arch_Linux-1793D1?style=for-the-badge&logo=arch-linux&logoColor=white"></a>
-                    <a href="https://git-scm.com/" target="_blank"><img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white"></a>
-                </div>
-            </div>
-        </div>
+      <!-- пасхалки для тех, кто далеко уплыл -->
+      <p class="egg" style="left:-2300px; top:-1200px">здесь ничего нет.<br>пока что.</p>
+      <p class="egg" style="left:2600px; top:1500px">далеко же ты забрался.<br>нажми «домой» ↙</p>
+      <p class="egg" style="left:-300px; top:2200px">$ sudo rm -rf /*<br># не надо</p>
+      <p class="egg" style="left:400px; top:-2000px">btw i use arch</p>
     </div>
+  </main>
 
-    <script>
-        function copyDiscord() {
-            const id = "ohixx";
-            navigator.clipboard.writeText(id).then(() => {
-                const tooltip = document.getElementById('ds-tooltip');
-                tooltip.classList.add('show');
-                setTimeout(() => { tooltip.classList.remove('show'); }, 2000);
-            });
-        }
-    </script>
+  <!-- ═══ интерфейс поверх холста ═══ -->
+  <nav id="dock" aria-label="навигация">
+    <button data-go="home" title="домой (0)">⌂ домой</button>
+    <button data-go="bio">био</button>
+    <button data-go="links">соцсети</button>
+    <button data-go="orders">заказы</button>
+  </nav>
+
+  <div id="coords" aria-hidden="true">x 0 · y 0 · 100%</div>
+
+  <div id="tools">
+    <button id="physics-toggle" title="ping pong" aria-label="Запустить ping pong">ping pong</button>
+    <button id="ice-toggle" title="ледяная физика" aria-label="Переключить ледяную физику">ice on</button>
+    <button id="sound" title="звук" aria-label="включить звук">♪ off</button>
+    <button id="zoom-out" title="отдалить (−)" aria-label="отдалить">−</button>
+    <button id="zoom-in" title="приблизить (+)" aria-label="приблизить">+</button>
+  </div>
+
+  <div id="hint">тяни холст, чтобы двигаться · колёсико — зум</div>
+  <div id="toast" role="status"></div>
+
+  <script src="config.js?v=6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script>
+  <script src="app.js?v=15"></script>
 </body>
 </html>
