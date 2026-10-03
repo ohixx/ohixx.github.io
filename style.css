@@ -316,6 +316,7 @@ h1 {
   white-space: nowrap;
   transition: background .15s, color .15s;
 }
+#dock button:active, #tools button:active { transform: scale(.96); }
 #dock button:hover, #tools button:hover { background: rgba(255, 255, 255, .1); color: var(--ink); }
 #tools button.on { color: var(--pink); }
 #tools #zoom-in, #tools #zoom-out { width: 34px; padding: 7px 0; font-size: 15px; }
@@ -379,10 +380,12 @@ body.narrow #orders { width: 340px; }
   #dock button { padding: 7px 9px; font-size: 12px; }
   #tools { right: 12px; bottom: 12px; }
   #tools #zoom-in, #tools #zoom-out { display: none; }
-  #hint { bottom: 68px; }
+  #hint { bottom: 68px; white-space: normal; width: max-content; max-width: calc(100vw - 24px); text-align: center; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .island { animation: none; opacity: 1; }
   #wires path, .caret { animation: none; }
+  #bg { display: none; }
+  html { scroll-behavior: auto; }
 }
