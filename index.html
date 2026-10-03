@@ -6,15 +6,22 @@
   <title>ohixx</title>
   <meta name="description" content="ohixx — arch linux, debian. контакты и заказы.">
   <meta name="theme-color" content="#050506">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ohixx">
+  <meta property="og:description" content="arch linux, debian. контакты и заказы.">
+  <meta property="og:image" content="image.png">
+  <meta name="twitter:card" content="summary">
   <link rel="icon" href="image.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=6">
+  <link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
+  <noscript><p style="position:fixed;inset:0;display:grid;place-items:center;z-index:99;background:#050506;color:#f3f3f5;font-family:monospace">включи javascript, чтобы увидеть сайт.<br>discord @ohixxx · telegram @ohixxsexi</p></noscript>
 
-  <video id="bg" src="bg-web.mp4" autoplay muted loop playsinline disablepictureinpicture tabindex="-1" aria-hidden="true"></video>
+  <video id="bg" src="bg-web.mp4" poster="image.png" preload="metadata" autoplay muted loop playsinline disablepictureinpicture tabindex="-1" aria-hidden="true"></video>
   <div id="shade" aria-hidden="true"></div>
   <div id="grid" aria-hidden="true"></div>
 
@@ -27,7 +34,7 @@
         <header class="bar"><span class="path">~/ohixx</span><i class="stripes"></i></header>
         <div class="bio-body">
           <div class="avatar-stack">
-            <img class="avatar" src="image.png" alt="аватар ohixx" draggable="false">
+            <img class="avatar" src="image.png" width="148" height="148" decoding="async" alt="аватар ohixx" draggable="false">
             <ul class="tech-stack" aria-label="Языки и технологии">
               <li><img src="https://cdn.simpleicons.org/c/A8B9CC" alt="C"></li>
               <li><img src="https://cdn.simpleicons.org/cplusplus/00599C" alt="C++"></li>
@@ -122,6 +129,16 @@
   <div id="hint">тяни холст, чтобы двигаться · колёсико — зум</div>
   <div id="toast" role="status"></div>
 
+  <script>
+    (function () {
+      var v = document.getElementById("bg");
+      if (!v) return;
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) { v.removeAttribute("autoplay"); v.pause(); return; }
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) v.pause(); else v.play().catch(function () {});
+      });
+    })();
+  </script>
   <script src="config.js?v=6"></script>
   <script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script>
   <script src="app.js?v=15"></script>
